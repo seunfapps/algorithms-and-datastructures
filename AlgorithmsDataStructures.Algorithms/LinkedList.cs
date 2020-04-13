@@ -39,6 +39,24 @@ namespace AlgorithmsDataStructures.Algorithms
                 Tail = Head;
         }
 
+        public void AddLast(T value)
+        {
+            AddLast(new LinkedListNode<T>(value));
+        }
+
+        public void AddLast(LinkedListNode<T> node)
+        {
+            if (Count == 0)
+                Head = node;
+            else
+                Tail.Next = node;
+
+            Tail = node;
+
+            Count++;
+        }
+
+
         public void Clear()
         {
             throw new NotImplementedException();
