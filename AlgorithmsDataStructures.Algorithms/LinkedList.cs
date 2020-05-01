@@ -56,6 +56,14 @@ namespace AlgorithmsDataStructures.Algorithms
             Count++;
         }
 
+        public void RemoveFirst()
+        {
+            Head = Head.Next;
+            Count--;
+
+            if (Count == 0)
+                 Tail = null;
+        }
 
         public void Clear()
         {
@@ -96,7 +104,45 @@ namespace AlgorithmsDataStructures.Algorithms
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            /*
+             Cases:
+             1. Empty List, do nothing
+             2. Single node in list (previous is null)
+             3. Node to remove is first node
+             4. Node to remove is middle or last node
+             */
+            LinkedListNode<T> current = Head;
+            LinkedListNode<T> previous = null;
+
+            while(current.Next != null)
+            {
+                if (current.Value.Equals(item))
+                {
+                    if(previous != null)
+                    {
+                        //Case 4
+                        previous.Next = current.Next;
+                        if(current.Next == null)
+                        {
+                            //last node
+                            Tail = previous;
+                        }
+                        Count--;
+                    }
+                    else
+                    {
+                        //either only one node in list or item is first in list
+                        //Case 2 or 3
+                        RemoveFirst();
+                    }
+                    return true;
+
+                }
+
+                previous = current;
+                current = current.Next;
+            }
+            return false;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
