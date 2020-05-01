@@ -64,12 +64,29 @@ namespace AlgorithmsDataStructures.Algorithms
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            //start from beginning of the list
+            LinkedListNode<T> current = Head;
+            while(current != null)
+            {
+                if (current.Value.Equals(item))
+                {
+                    return true;
+                }
+                //move to next item in List;
+                current = current.Next;
+            }
+            return false;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            //copy list into array, starting from index
+            LinkedListNode<T> current = Head;
+            while(current.Next != null)
+            {
+                array[arrayIndex++] = current.Value;
+                current = current.Next;
+            }
         }
 
         public System.Collections.Generic.IEnumerator<T> GetEnumerator()
