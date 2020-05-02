@@ -15,6 +15,12 @@ namespace AlgorithmsDataStructures.App
 
             a.Next = b;
             b.Next = c;
+
+            PostFixCalc calc = new PostFixCalc();
+
+            int result = calc.Solve("567*+1-");
+
+            Console.WriteLine(result);
         }
     }
 }

@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AlgorithmsDataStructures.Models\AlgorithmsDataStructures.Models.csproj" />
+    <ProjectReference Include="..\AlgorithmsDataStructures.Algorithms\AlgorithmsDataStructures.Algorithms.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
