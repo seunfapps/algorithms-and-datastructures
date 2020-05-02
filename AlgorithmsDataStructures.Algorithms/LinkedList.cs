@@ -56,8 +56,9 @@ namespace AlgorithmsDataStructures.Algorithms
             Count++;
         }
 
-        public void AddBefore(LinkedListNode<T> newNode, LinkedListNode<T> beforeNode)
+        public void AddBefore(T value, LinkedListNode<T> beforeNode)
         {
+            LinkedListNode<T> newNode = new LinkedListNode<T>(value);
             LinkedListNode<T> current = Head;
 
             while(current != beforeNode)
