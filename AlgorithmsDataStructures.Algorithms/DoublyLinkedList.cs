@@ -4,12 +4,12 @@ using AlgorithmsDataStructures.Models;
 
 namespace AlgorithmsDataStructures.Algorithms
 {
-    public class LinkedList<T> : System.Collections.Generic.ICollection<T>
+    public class DoublyLinkedList<T> : System.Collections.Generic.ICollection<T>
     {
         //first node
-        public LinkedListNode<T> Head { get; set; }
+        public DoublyLinkedListNode<T> Head { get; set; }
         //last node
-        public LinkedListNode<T> Tail { get; private set; }
+        public DoublyLinkedListNode<T> Tail { get; private set; }
 
         public int Count { get; private set; }
 
@@ -22,12 +22,12 @@ namespace AlgorithmsDataStructures.Algorithms
 
         public void AddFirst(T value)
         {
-            AddFirst(new LinkedListNode<T>(value));
+            AddFirst(new DoublyLinkedListNode<T>(value));
         }
 
-        public void AddFirst(LinkedListNode<T> node)
+        public void AddFirst(DoublyLinkedListNode<T> node)
         {
-            LinkedListNode<T> temp = Head;
+            DoublyLinkedListNode<T> temp = Head;
 
             Head = node;
 
@@ -37,19 +37,26 @@ namespace AlgorithmsDataStructures.Algorithms
 
             if (Count == 1)
                 Tail = Head;
+            else
+                temp.Previous = Head;
+
+            
         }
 
         public void AddLast(T value)
         {
-            AddLast(new LinkedListNode<T>(value));
+            AddLast(new DoublyLinkedListNode<T>(value));
         }
 
-        public void AddLast(LinkedListNode<T> node)
+        public void AddLast(DoublyLinkedListNode<T> node)
         {
             if (Count == 0)
                 Head = node;
             else
+            {
                 Tail.Next = node;
+                node.Previous = Tail;
+            }
 
             Tail = node;
 
@@ -63,6 +70,8 @@ namespace AlgorithmsDataStructures.Algorithms
 
             if (Count == 0)
                  Tail = null;
+
+            Head.Previous = null;
         }
 
         public void RemoveLast()
@@ -74,19 +83,11 @@ namespace AlgorithmsDataStructures.Algorithms
             }
             else
             {
-                LinkedListNode<T> current = Head;
-                while (current.Next != Tail)
-                {
-                    current = current.Next;
-                }
-
-                current.Next = null;
-                Tail = current;
+                Tail.Previous.Next = null;
+                Tail = Tail.Previous;
             }
-            
             Count--;
         }
-
         public void Clear()
         {
             throw new NotImplementedException();
@@ -95,7 +96,7 @@ namespace AlgorithmsDataStructures.Algorithms
         public bool Contains(T item)
         {
             //start from beginning of the list
-            LinkedListNode<T> current = Head;
+            DoublyLinkedListNode<T> current = Head;
             while(current != null)
             {
                 if (current.Value.Equals(item))
@@ -111,7 +112,7 @@ namespace AlgorithmsDataStructures.Algorithms
         public void CopyTo(T[] array, int arrayIndex)
         {
             //copy list into array, starting from index
-            LinkedListNode<T> current = Head;
+            DoublyLinkedListNode<T> current = Head;
             while(current.Next != null)
             {
                 array[arrayIndex++] = current.Value;
@@ -133,36 +134,31 @@ namespace AlgorithmsDataStructures.Algorithms
              3. Node to remove is first node
              4. Node to remove is middle or last node
              */
-            LinkedListNode<T> current = Head;
-            LinkedListNode<T> previous = null;
+            DoublyLinkedListNode<T> current = Head;
+            //DoublyLinkedListNode<T> previous = null;
 
             while(current.Next != null)
             {
                 if (current.Value.Equals(item))
                 {
-                    if(previous != null)
+                    if(current.Previous != null)
                     {
-                        //Case 4
-                        previous.Next = current.Next;
-                        if(current.Next == null)
+                        if (current.Value.Equals(item))
                         {
-                            //last node
-                            Tail = previous;
+                            current.Previous.Next = current.Next;
                         }
-                        Count--;
+                        else
+                        {
+                            current = current.Next;
+                        }
                     }
                     else
                     {
-                        //either only one node in list or item is first in list
-                        //Case 2 or 3
                         RemoveFirst();
                     }
-                    return true;
 
+                    Count--;
                 }
-
-                previous = current;
-                current = current.Next;
             }
             return false;
         }
