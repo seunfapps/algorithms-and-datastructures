@@ -25,5 +25,13 @@ namespace AlgorithmsDataStructures.Algorithms
             list.RemoveFirst();
             return value;
         }
+
+        public T Peek()
+        {
+            if (list.Count == 0)
+                throw new InvalidOperationException("Stack is empty");
+
+            return list.Head.Value;
+        }
     }
 }
