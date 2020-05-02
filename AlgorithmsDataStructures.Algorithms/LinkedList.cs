@@ -56,6 +56,22 @@ namespace AlgorithmsDataStructures.Algorithms
             Count++;
         }
 
+        public void AddBefore(LinkedListNode<T> newNode, LinkedListNode<T> beforeNode)
+        {
+            LinkedListNode<T> current = Head;
+
+            while(current != beforeNode)
+            {
+                if(current.Next == beforeNode)
+                {
+                    newNode.Next = beforeNode;
+                    current.Next = newNode;
+                    Count++;
+                    break;
+                }
+                current = current.Next;
+            }
+        }
         public void RemoveFirst()
         {
             Head = Head.Next;
