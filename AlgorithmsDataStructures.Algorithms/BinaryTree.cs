@@ -56,6 +56,41 @@ namespace AlgorithmsDataStructures.Algorithms
 
         }
 
+        public bool Contains (T value)
+        {
+            BinaryTreeNode<T> parent;
+
+            return FindWithParent(value, out parent) != null;
+        }
+
+        private BinaryTreeNode<T> FindWithParent(T item, out BinaryTreeNode<T> parent)
+        {
+            BinaryTreeNode<T> current = Head;
+            parent = null;
+
+            while (current != null)
+            {
+                if(item.CompareTo(current.Value) < 0)
+                {
+                    parent = current;
+                    current = current.Left;
+                }
+                else if(item.CompareTo(current.Value) > 0)
+                {
+                    parent = current;
+                    current = current.Right;
+                }
+                else
+                {
+                    //we found a match
+                    break;
+                }
+            }
+
+            return current;
+            
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             throw new NotImplementedException();
