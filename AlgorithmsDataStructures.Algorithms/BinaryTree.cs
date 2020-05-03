@@ -91,6 +91,104 @@ namespace AlgorithmsDataStructures.Algorithms
             
         }
 
+
+        public bool Remove (T item)
+        {
+            BinaryTreeNode<T> parent;
+
+            BinaryTreeNode<T> current = FindWithParent(item, out parent);
+
+            if (current == null) //item to remove wasn't found
+                return false;
+
+
+            /*Removing from Binary Tree is a bit more complex, there are 3 scenarios
+            Case 1: If the node to remove has no right child, then node's left child replaces node
+            Case 2: If the node's right child has no left child, then node's right child replaces node
+            Case 3: If the node's right child has a left child, then replace node with node's right child's left-most child.
+             */
+
+            //Case 1
+            if(current.Right == null)
+            {
+                if(parent == null)
+                {
+                    //if item is the root node.
+                    Head = current.Left;
+                }
+                else
+                {
+                    //to determine where to put current node on parent, left side or right side
+                    if(current.Value.CompareTo(parent.Value) < 0)
+                    {
+                        //if current value is less than parent value
+                        //make current's left child the left child of parent
+                        parent.Left = current.Left;
+                    }
+                    else
+                    {
+                        //if current value is more than or equal parent value
+                        //make current's left child the right child of parent
+                        parent.Right = current.Left;
+                    }
+                }
+            }
+
+            //Case 2
+            else if(current.Right.Left == null)
+            {
+                if (parent == null)
+                    Head = current.Right;
+                else
+                {
+                    if(current.Value.CompareTo(parent.Value) < 0)
+                    {
+                        parent.Left = current.Right;
+                    }
+                    else
+                    {
+                        parent.Right = current.Right;
+                    }
+                }
+            }
+
+            //Case 3
+            else
+            {
+                BinaryTreeNode<T> leftMost = current.Right.Left; //starting point
+                BinaryTreeNode<T> leftMostParent = current.Right; //parent of the leftmost child
+
+                while(leftMost.Left != null)//while there is still a child to the left, keep going left
+                {
+                    leftMostParent = leftMost;
+                    leftMost = leftMost.Left;
+                }
+
+                //replace node with node's right child's left-most child. ?? -- not sure this bit.
+                //the parent's left subtree becomes the leftmost's right subtree
+                leftMostParent.Left = leftMost.Right;
+
+                //assign leftmost's left and right to current's left and right children.
+                leftMost.Left = current.Left;
+                leftMost.Right = current.Right;
+
+                if (parent == null)
+                    Head = leftMost;
+                else
+                {
+                    if (current.Value.CompareTo(parent.Value) < 0)
+                    {
+                        parent.Left = leftMost;
+                    }
+                    else
+                    {
+                        parent.Right = leftMost;
+                    }
+                }
+
+            }
+            return true;
+        }
         public IEnumerator<T> GetEnumerator()
         {
             throw new NotImplementedException();
